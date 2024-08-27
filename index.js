@@ -10,8 +10,8 @@ const bodyParser = require('body-parser');
 const { PORT = 3002, MONGODB = 'mongodb://127.0.0.1:27017/test' } = process.env;
 const urlList = [
   'http://localhost:3000',
-  'https://tafontend.online',
-  'http://tafontend.online/',
+  'https://sclad.tafontend.online',
+  'http://sclad.tafontend.online/',
 ];
 
 app.use(bodyParser.json());
