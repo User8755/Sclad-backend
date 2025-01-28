@@ -1,6 +1,6 @@
 const Excel = require('exceljs');
 
-module.exports = (req, res, next) => {
+module.exports.createData = (req, res, next) => {
   const workbook = new Excel.Workbook();
   workbook.xlsx
     .load(req.files.file.data)
@@ -35,3 +35,19 @@ module.exports = (req, res, next) => {
     })
     .catch((e) => next(e));
 };
+
+module.exports.createBodyData = (req, res, next) => {
+  const uniqArt = [];
+  req.body.forEach((i) => {
+    const obj = { art: i.art, name: i.name, place: [] };
+    if (!uniqArt.some((s) => s.art === i.art)) {
+      req.body
+        .filter((f) => f.art === i.art)
+        .forEach((d) => obj.place.push(d.place));
+      uniqArt.push(obj);
+    }
+  });
+  req.data = uniqArt;
+  console.log(req.data)
+  next();
+}

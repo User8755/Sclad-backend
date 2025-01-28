@@ -1,6 +1,6 @@
 const express = require('express');
 const { getTable, postTable } = require('./controller');
-const createData = require('./middlewares');
+const {createData, createBodyData} = require('./middlewares');
 const fileUpload = require('express-fileupload');
 
 const app = express();
@@ -14,11 +14,11 @@ const urlList = [
   'http://sclad.tafontend.online/',
 ];
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(fileUpload());
 
-mongoose.connect(MONGODB);
+//mongoose.connect(MONGODB);
 
 app.use(
   cors({
@@ -30,6 +30,7 @@ app.use(
 
 app.get('/', getTable);
 app.post('/', createData, postTable);
+app.post('/1c', createBodyData, postTable);
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
